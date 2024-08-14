@@ -2,26 +2,30 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconDashboard, IconDeviceAnalytics } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconDashboard,
-    IconDeviceAnalytics
-};
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import EvStationIcon from '@mui/icons-material/EvStation';
+import ElectricScooterIcon from '@mui/icons-material/ElectricScooter';
 
 const menus = {
     id: 'master-setup',
     title: <FormattedMessage id="master-setup" />,
-    icon: icons.IconDashboard,
+    icon: EvStationIcon,
     type: 'group',
     children: [
+        {
+            id: 'vehicles',
+            title: <FormattedMessage id="Vehicles" />,
+            type: 'item',
+            url: '/vehicles',
+            icon: ElectricScooterIcon,
+            breadcrumbs: false
+        },
         {
             id: 'charges',
             title: <FormattedMessage id="Charges" />,
             type: 'item',
             url: '/charges',
-            icon: icons.IconDashboard,
+            icon: ElectricalServicesIcon,
             breadcrumbs: false
         },
         {
@@ -29,7 +33,7 @@ const menus = {
             title: <FormattedMessage id="Charging Station" />,
             type: 'item',
             url: '/charging-stations',
-            icon: icons.IconDeviceAnalytics,
+            icon: EvStationIcon,
             breadcrumbs: false
         }
     ]

@@ -26,8 +26,6 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
     name: yup.string().required('Station Name is required'),
-    // type: yup.string().required('Vehicle Type is required'),
-    // port: yup.string().required('Port Type is required'),
     chargesId: yup.array().min(1, 'Select atleast one charge').required('Charges are required'),
     openingTime: yup.string().required('Opening Time is required'),
     closingTime: yup.string().required('Closing Time is required')

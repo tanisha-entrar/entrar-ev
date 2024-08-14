@@ -6,11 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import MainCard from 'ui-component/cards/MainCard';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Divider, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges }) => {
+const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges, isLoading }) => {
     const navigate = useNavigate();
     const handleAdd = () => {
         setRenderType('ADD');
@@ -40,24 +40,39 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges })
                 </Button>
             </Grid>
             <Divider sx={{ mt: 2, mb: 2 }} />
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Vehicle Type</TableCell>
-                            <TableCell>Port</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {values?.chargesList?.map((row) => (
+            {isLoading ? (
+                <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <CircularProgress />
+                </Grid>
+            ) : (
+                <TableContainer>
+                    <Table>
+                        <TableHead>
                             <TableRow>
-                                <TableCell>{row?.type}</TableCell>
-                                <TableCell>{row?.port}</TableCell>
+                                <TableCell>Vehicle Type</TableCell>
+                                <TableCell>Port</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {values?.chargesList?.map((row) => (
+                                <TableRow>
+                                    <TableCell>{row?.type}</TableCell>
+                                    <TableCell>{row?.port}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )}
         </MainCard>
     );
 };

@@ -75,14 +75,17 @@ const Charges = () => {
         }
     };
     const fetchCharges = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(`/v1/charging-station/charges/list`);
             if (response.status === 200) {
+                setIsLoading(false);
                 if (response.data.code !== '403') {
                     formikRef?.current?.setFieldValue(`chargesList`, response?.data?.data);
                 }
             }
         } catch (error) {
+            setIsLoading(false);
             if (!error.response) {
                 showMessage({ message: error.message, color: 'error' });
             } else {

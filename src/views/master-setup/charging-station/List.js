@@ -5,7 +5,20 @@
 import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, IconButton, Skeleton, Tooltip, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    CircularProgress,
+    Divider,
+    Grid,
+    IconButton,
+    Skeleton,
+    Tooltip,
+    Typography
+} from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
@@ -64,7 +77,7 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, isLoading, fetc
                         alignItems: 'center'
                     }}
                 >
-                    <Skeleton />
+                    <CircularProgress />
                 </Grid>
             ) : values?.stationList?.length > 0 ? (
                 <Grid container spacing={3}>
