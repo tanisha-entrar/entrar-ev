@@ -6,20 +6,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import MainCard from 'ui-component/cards/MainCard';
-import { Box, Button, CircularProgress, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Divider,
+    FormControl,
+    Grid,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Select,
+    Tooltip,
+    Typography
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import EditIcon from '@mui/icons-material/Edit';
 
 const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, isLoading }) => {
     const vehicleType = ['TWO_WHEELER', 'FOUR_WHEELER', 'BUS', 'BICYCLE', 'ELECTRIC_SCOOTER', 'OTHER'];
     const navigate = useNavigate();
+    const handleEdit = async (row) => {
+        console.log(row, 'rowroww');
+        setFieldValue(`id`, row?.id);
+        setFieldValue(`name`, row?.name);
+        setFieldValue(`type`, row?.type);
+        setFieldValue(`mileage`, row?.mileage);
+        setFieldValue('renderType', 'EDIT');
+        setRenderType('ADD');
+    };
     const handleAdd = () => {
         setRenderType('ADD');
-        setFieldValue(`type`, 'ADD');
+        setFieldValue(`renderType`, 'ADD');
         resetForm();
     };
     return (
-        <MainCard>
+        <MainCard sx={{ minHeight: '85vh' }}>
             <Grid sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, color: 'black' }}>
                     <ArrowBackIosIcon
@@ -73,25 +96,38 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, 
                     <CircularProgress />
                 </Grid>
             ) : (
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Vehicle Name</TableCell>
-                                <TableCell>Vehicle Type</TableCell>
-                                <TableCell>Mileage</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {values?.vehicleList?.map((row) => (
+                <TableContainer sx={{ mt: 2 }}>
+                    {values?.vehicleList?.length > 0 && (
+                        <Table>
+                            <TableHead>
                                 <TableRow>
-                                    <TableCell>{row?.name}</TableCell>
-                                    <TableCell>{row?.type}</TableCell>
-                                    <TableCell>{row?.mileage}</TableCell>
+                                    <TableCell>Vehicle Name</TableCell>
+                                    <TableCell>Vehicle Type</TableCell>
+                                    <TableCell>Mileage</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {values?.vehicleList?.map((row) => (
+                                    <TableRow>
+                                        <TableCell>{row?.name}</TableCell>
+                                        <TableCell>{row?.type}</TableCell>
+                                        <TableCell>{row?.mileage}</TableCell>
+                                        <TableCell>
+                                            <Tooltip title="Edit Charges">
+                                                <IconButton
+                                                    onClick={() => {
+                                                        handleEdit(row);
+                                                    }}
+                                                >
+                                                    <EditIcon fontSize="small" color="secondary" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
                 </TableContainer>
             )}
         </MainCard>

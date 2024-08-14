@@ -40,14 +40,14 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, isLoading, fetc
     };
     const handleAdd = () => {
         setRenderType('ADD');
-        setFieldValue(`type`, 'ADD');
+        setFieldValue(`renderType`, 'ADD');
         resetForm();
     };
     useEffect(() => {
         fetchChargingStations();
     }, []);
     return (
-        <MainCard sx={{ minHeight: '55vh' }}>
+        <MainCard sx={{ minHeight: '85vh' }}>
             <Grid sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, color: 'black' }}>
                     <ArrowBackIosIcon
@@ -83,7 +83,7 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, isLoading, fetc
                 <Grid container spacing={3}>
                     {values?.stationList?.map((station) => (
                         <>
-                            <Grid item xs={12} sm={3} md={3} key={station?.id}>
+                            <Grid item xs={12} sm={3} md={4} key={station?.id}>
                                 <Card
                                     sx={{
                                         background: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50],
