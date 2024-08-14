@@ -11,13 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditIcon from '@mui/icons-material/Edit';
 
-const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges, isLoading }) => {
+const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicleTypes, isLoading }) => {
     const navigate = useNavigate();
     const handleEdit = async (row) => {
         setFieldValue(`id`, row?.id);
-        setFieldValue(`name`, row?.name);
-        setFieldValue(`type`, row?.type);
-        setFieldValue(`port`, row?.port);
+        setFieldValue(`vehicleTypeName`, row?.vehicleTypeName);
         setFieldValue('renderType', 'EDIT');
         setRenderType('ADD');
     };
@@ -27,7 +25,7 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges, i
         resetForm();
     };
     useEffect(() => {
-        fetchCharges();
+        fetchVehicleTypes();
     }, []);
     return (
         <MainCard sx={{ minHeight: '85vh' }}>
@@ -41,7 +39,7 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges, i
                         }}
                     />
                     <Typography variant="h4" color="primary">
-                        Charges
+                        Vehicle Types
                     </Typography>
                 </Box>
                 <Button variant="contained" color="primary" onClick={handleAdd}>
@@ -64,21 +62,19 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchCharges, i
                 </Grid>
             ) : (
                 <TableContainer>
-                    {values?.chargesList?.length > 0 && (
+                    {values?.vehicleTypeList?.length > 0 && (
                         <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Vehicle Type</TableCell>
-                                    <TableCell>Port</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {values?.chargesList?.map((row) => (
+                                {values?.vehicleTypeList?.map((row) => (
                                     <TableRow>
-                                        <TableCell>{row?.type}</TableCell>
-                                        <TableCell>{row?.port}</TableCell>
+                                        <TableCell>{row?.vehicleTypeName}</TableCell>
                                         <TableCell>
-                                            <Tooltip title="Edit Charges">
+                                            <Tooltip title="Edit vehicle type">
                                                 <IconButton
                                                     onClick={() => {
                                                         handleEdit(row);

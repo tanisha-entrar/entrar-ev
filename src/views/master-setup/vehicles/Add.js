@@ -1,17 +1,19 @@
 import { Button, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { ErrorMessage, Form, getIn } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 
-const Add = ({ values, setFieldValue, errors, touched, setRenderType, resetForm }) => {
-    const vehicleType = ['TWO_WHEELER', 'FOUR_WHEELER', 'BUS', 'BICYCLE', 'ELECTRIC_SCOOTER', 'OTHER'];
+const Add = ({ values, setFieldValue, errors, touched, setRenderType, resetForm, fetchVehicleTypes }) => {
+    useEffect(() => {
+        fetchVehicleTypes();
+    }, []);
     return (
         <Form>
             <MainCard sx={{ minHeight: '500vh' }}>
                 <Grid sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h4" color="primary">
-                        {values?.renderType === 'ADD' ? 'Add Ports' : 'Update Ports'}
+                        {values?.renderType === 'ADD' ? 'Add Vehicles' : 'Update Vehicles'}
                     </Typography>
                     <Button
                         variant="contained"
@@ -40,8 +42,8 @@ const Add = ({ values, setFieldValue, errors, touched, setRenderType, resetForm 
                                 error={getIn(errors, `type`) && getIn(touched, `type`)}
                                 helperText={getIn(errors, `type`) && getIn(touched, `type`) && getIn(errors, `type`)}
                             >
-                                {vehicleType?.map((port) => (
-                                    <MenuItem value={port}>{port}</MenuItem>
+                                {values?.vehicleType?.map((type) => (
+                                    <MenuItem value={type?.id}>{type?.vehicleTypeName}</MenuItem>
                                 ))}
                             </Select>
                             <ErrorMessage name="type" component="div" className="error-message">

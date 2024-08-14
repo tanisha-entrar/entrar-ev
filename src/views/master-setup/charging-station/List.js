@@ -5,20 +5,7 @@
 import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
-import {
-    Box,
-    Button,
-    Card,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Divider,
-    Grid,
-    IconButton,
-    Skeleton,
-    Tooltip,
-    Typography
-} from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
@@ -100,7 +87,7 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, isLoading, fetc
                                                     <Grid item xs={12}>
                                                         <Tooltip title={station?.name} arrow>
                                                             <Typography
-                                                                variant="h4"
+                                                                variant="h3"
                                                                 sx={{
                                                                     whiteSpace: 'nowrap',
                                                                     overflow: 'hidden',

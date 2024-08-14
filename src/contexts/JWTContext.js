@@ -90,7 +90,6 @@ export const JWTProvider = ({ children }) => {
             username,
             password
         });
-        console.log(response?.data, 'responseeee');
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('role', response.data.role[0].roleName);
         localStorage.setItem('token', response.data.token);

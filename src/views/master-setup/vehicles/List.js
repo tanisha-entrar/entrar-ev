@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,11 +24,9 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditIcon from '@mui/icons-material/Edit';
 
-const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, isLoading }) => {
-    const vehicleType = ['TWO_WHEELER', 'FOUR_WHEELER', 'BUS', 'BICYCLE', 'ELECTRIC_SCOOTER', 'OTHER'];
+const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, isLoading, fetchVehicleTypes }) => {
     const navigate = useNavigate();
     const handleEdit = async (row) => {
-        console.log(row, 'rowroww');
         setFieldValue(`id`, row?.id);
         setFieldValue(`name`, row?.name);
         setFieldValue(`type`, row?.type);
@@ -41,6 +39,9 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, 
         setFieldValue(`renderType`, 'ADD');
         resetForm();
     };
+    useEffect(() => {
+        fetchVehicleTypes();
+    }, []);
     return (
         <MainCard sx={{ minHeight: '85vh' }}>
             <Grid sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -75,8 +76,8 @@ const List = ({ setRenderType, setFieldValue, resetForm, values, fetchVehicles, 
                                 fetchVehicles(e.target.value);
                             }}
                         >
-                            {vehicleType?.map((port) => (
-                                <MenuItem value={port}>{port}</MenuItem>
+                            {values?.vehicleType?.map((type) => (
+                                <MenuItem value={type?.id}>{type?.vehicleTypeName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

@@ -10,36 +10,26 @@ import List from './List';
 const initialValues = {
     renderType: 'ADD',
     id: '',
-    type: '',
-    name: '',
-    mileage: '',
-    vehicleList: [],
-    vehicleType: []
+    vehicleTypeName: '',
+    vehicleTypeList: []
 };
 
 const validationSchema = yup.object().shape({
-    type: yup.string().required('Vehicle Type is required'),
-    name: yup.string().required('Name is required'),
-    mileage: yup.string().required('Mileage is required')
+    vehicleTypeName: yup.string().required('Vehicle Type is required')
 });
 
-const VehicleSetup = () => {
+const VehicleTypeSetup = () => {
     const [renderType, setRenderType] = useState('LIST');
     const [isLoading, setIsLoading] = useState(false);
     const showMessage = useMessageDispatcher();
     const formikRef = useRef();
 
-    const handleAddVehicles = async (values) => {
-        const payload = {
-            id: values?.id,
-            type: values?.type,
-            name: values?.name,
-            mileage: values?.mileage
-        };
+    const handleAddVehicleType = async (values) => {
         try {
-            const response = await axios.post(`/v1/charging-station/add-update-vehicle`, payload);
+            const response = await axios.post(`/v1/charging-station/add-update-vehicleType?vehicleTypeName=${values?.vehicleTypeName}`, {});
             if (response.status === 200) {
                 setRenderType('LIST');
+                fetchVehicleTypes();
             }
         } catch (error) {
             if (!error.response) {
@@ -50,29 +40,13 @@ const VehicleSetup = () => {
         }
     };
     const fetchVehicleTypes = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(`/v1/charging-station/get-vehicleType-list`);
             if (response.status === 200) {
-                if (response.data.code !== '403') {
-                    formikRef?.current?.setFieldValue(`vehicleType`, response?.data?.data);
-                }
-            }
-        } catch (error) {
-            if (!error.response) {
-                showMessage({ message: error.message, color: 'error' });
-            } else {
-                showMessage({ message: error.response.data.Msg, color: 'error' });
-            }
-        }
-    };
-    const fetchVehicles = async (vehicleType) => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get(`/v1/charging-station/get-vehicle-list?vehicleTypeId=${vehicleType}`);
-            if (response.status === 200) {
                 setIsLoading(false);
                 if (response.data.code !== '403') {
-                    formikRef?.current?.setFieldValue(`vehicleList`, response?.data?.data);
+                    formikRef?.current?.setFieldValue(`vehicleTypeList`, response?.data?.data);
                 }
             }
         } catch (error) {
@@ -86,7 +60,7 @@ const VehicleSetup = () => {
     };
 
     return (
-        <Formik initialValues={initialValues} validationSchema={validationSchema} innerRef={formikRef} onSubmit={handleAddVehicles}>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} innerRef={formikRef} onSubmit={handleAddVehicleType}>
             {({ errors, touched, values, setFieldValue, resetForm }) =>
                 renderType === 'ADD' ? (
                     <Add
@@ -96,7 +70,6 @@ const VehicleSetup = () => {
                         touched={touched}
                         setRenderType={setRenderType}
                         resetForm={resetForm}
-                        fetchVehicleTypes={fetchVehicleTypes}
                     />
                 ) : (
                     <List
@@ -107,7 +80,6 @@ const VehicleSetup = () => {
                         setRenderType={setRenderType}
                         resetForm={resetForm}
                         isLoading={isLoading}
-                        fetchVehicles={fetchVehicles}
                         fetchVehicleTypes={fetchVehicleTypes}
                     />
                 )
@@ -116,4 +88,4 @@ const VehicleSetup = () => {
     );
 };
 
-export default VehicleSetup;
+export default VehicleTypeSetup;

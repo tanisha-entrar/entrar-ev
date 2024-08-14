@@ -74,7 +74,6 @@ const ChargingStationSetup = () => {
                         const district = address?.state_district;
                         const suburb = address?.suburb;
                         const postcode = address?.postcode;
-                        console.log(address, 'address71address71');
                         setLatitude(latitude);
                         setLongitude(longitude);
                         setLocation(`${postcode}, ${suburb}, ${district}, ${city}, ${state}, ${country} `);
